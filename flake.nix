@@ -38,7 +38,7 @@
             buildPhase = ''
               cat > yasunori-slot <<EOF
               #!/usr/bin/env bash
-              ${pkgs.ruby}/bin/ruby ./yasunori-slot.rb
+              ${pkgs.ruby}/bin/ruby $out/bin/yasunori-slot.rb
               EOF
             '';
 
