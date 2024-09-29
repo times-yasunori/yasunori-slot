@@ -29,14 +29,24 @@
         }:
         let
           stdenv = pkgs.stdenv;
+          yasunori-slot = stdenv.mkDerivation {
+            pname = "yasunori-slot";
+            version = "0.1.0";
+            src = ./.;
+            nativeBuildInputs = [ pkgs.ruby ];
 
-	  yasunori-slot = pkgs.writeShellApplication {
-	  name = "yasunori-slot"; 
-	  runtimeInputs = [pkgs.ruby];
-	  text = ''
-	  ruby -e 'puts "yasunori".split("").shuffle.map{|char| ":alphabet-white-#{char}:"}.join("")'
-	  '';
-	  };
+            buildPhase = ''
+              cat > yasunori-slot <<EOF
+              #!/usr/bin/env bash
+              ruby ./yasunori-slot.rb 
+              EOF
+            '';
+
+            installPhase = ''
+              install -D yasunori-slot $out/bin/yasunori-slot
+              cp yasunori-slot.rb $out/bin/yasunori-slot.rb
+            '';
+          };
         in
         rec {
           treefmt = {
